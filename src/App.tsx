@@ -1,25 +1,36 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import {ApolloProvider, ApolloClient} from '@apollo/client';
+
+import {linkChain} from './appLinks';
+import {ApiProvider} from './api/ApiContext';
+import {InMemoryCache} from '@apollo/client/cache';
+import {Toaster} from 'react-hot-toast';
+import {AppRoutes} from './Routes';
+
+export const cache = new InMemoryCache({
+  typePolicies: {
+    Query: {
+      fields: {},
+    },
+  },
+});
+
+const client = new ApolloClient({
+  cache,
+  link: linkChain,
+  connectToDevTools: process.env.NODE_ENV === 'development' ? true : false,
+  defaultOptions: {
+    watchQuery: {fetchPolicy: 'cache-and-network'},
+  },
+});
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ApolloProvider client={client}>
+      <Toaster />
+      <ApiProvider>
+        <AppRoutes />
+      </ApiProvider>
+    </ApolloProvider>
   );
 }
 
