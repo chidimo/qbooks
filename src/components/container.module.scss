@@ -1,5 +1,11 @@
+$top-padding: 100px;
 
 .container {
-  padding-left: 50px;
-  padding-right: 50px;
+
+  padding: $top-padding 15px 0 15px;
+
+  @media screen and (min-width: 768px) {
+    padding: $top-padding 50px 0 50px;
+
+  }
 }

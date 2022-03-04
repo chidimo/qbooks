@@ -13,6 +13,7 @@ const BookDetail = () => {
   return (
     <div>
       {loading && <p>Refreshing</p>}
+
       <h1>Book Detail: {bookId}</h1>
       <pre>{JSON.stringify(book, null, 2)}</pre>
     </div>

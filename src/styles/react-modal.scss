@@ -1,0 +1,54 @@
+.ReactModal__Body--open {
+  overflow: hidden;
+}
+.ReactModal__Content {
+  width: 0;
+  opacity: 0;
+  transition: opacity 0.5s;
+}
+.ReactModal__Content--after-open {
+  opacity: 1;
+  width: 100vw;
+
+  @media screen and (min-width: 768px) {
+    width: 400px;
+  }
+}
+.ReactModal__Content--before-close {
+  width: 0;
+  opacity: 0;
+}
+.ReactModal__Overlay--before-close {
+  pointer-events: none;
+}
+.react-modal--overlay-style {
+  z-index: 15;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  position: fixed;
+  background: rgba(37, 34, 27, 0.2);
+}
+.react-modal--content-style {
+  position:absolute;
+  right: 0;
+  outline: none;
+  --webkit-overflow-scrolling: touch;
+  color: #000;
+  height: 100vh;
+}
+.centered {
+  top:0;
+  bottom: 0;
+  left: 0;
+  margin: auto;
+  // max-height: 400px;
+  border-radius: 5px;
+}
+.close-modal {
+  top: 15px;
+  right: 15px;
+  position: absolute;
+  cursor: pointer;
+}

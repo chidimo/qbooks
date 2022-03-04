@@ -1,0 +1,39 @@
+@import 'src/styles/variables.scss';
+
+.feature_container {
+  position: relative;
+  width: $featured-section-width !important;
+  min-width: $featured-section-width !important;
+  height: $featured-section-height;
+  margin: 0 10px;
+  box-shadow: 0px 30px 60px rgba(0, 0, 0, 0.15);
+}
+
+.image_container {
+  img {
+    width: 100%;
+    height: $featured-section-height;
+  }
+
+  cursor: pointer;
+  &:hover .feature_meta {
+    display: flex;
+  }
+}
+
+.title {
+  font-size: 18px;
+}
+
+.feature_meta {
+  display: none;
+  color: #fff;
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  padding: 35px 20px 20px 20px;
+  flex-direction: column;
+  justify-content: space-between;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.607988) 0%, #000000 79.7%);
+}

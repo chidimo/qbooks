@@ -1,0 +1,59 @@
+* {
+  box-sizing: border-box;
+}
+
+a {
+  text-decoration: none;
+}
+
+body {
+  margin: 0;
+  font-family: Ubuntu, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+hr {
+  background-color: #eee;
+}
+
+p {
+  margin: 0.5em 0;
+}
+
+.text-success {
+  color: #65C100;
+}
+
+.text-danger {
+  color: #C12300;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.ml-2 {
+  margin-left: 0.5rem;
+}
+
+.font-bold {
+  font-weight: bold;
+}
+
+.text-12 {
+  font-size: 12px;
+}
+
+.text-14 {
+  font-size: 14px;
+}
+
+.flex-grow {
+  flex-grow: 1;
+}

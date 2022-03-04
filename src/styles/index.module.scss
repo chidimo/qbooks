@@ -1,0 +1,61 @@
+@import 'src/styles/variables.scss';
+
+.featured_section {
+  margin-bottom: 60px;
+}
+
+.featured_header {
+  padding: 20px 0;
+}
+
+.featured_content {
+  height: $featured-section-height;
+}
+
+.featured_hide {
+  display: none;
+}
+
+.featured_loader {
+  margin: 0;
+  height: 100%;
+}
+
+.featured_carousel {
+  display: flex;
+  overflow-x: auto;
+  font-size: 12px;
+}
+
+.featured_loader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.book_grid {
+  display: flex;
+  justify-content: center;
+}
+
+.book_list {
+  display: grid;
+  padding: 0;
+  width: 100%;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+  justify-content: space-evenly;
+  gap: 1rem;
+
+  @media screen and (min-width:780px) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  @media screen and (min-width:960px) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.book_grid_item {
+  width: 315px;
+  list-style-type: none;
+}

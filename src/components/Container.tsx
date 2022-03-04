@@ -1,9 +1,15 @@
-import { Outlet } from "react-router-dom"
+import {Outlet} from 'react-router-dom';
 
-import styles from './container.module.scss'
+import styles from './container.module.scss';
+import {Navbar} from './Navbar';
 
 export const Container = () => {
-  return <div className={styles.container}>
-    <Outlet />
-  </div>
-}
+  return (
+    <>
+      <Navbar />
+      <div className={styles.container}>
+        <Outlet />
+      </div>
+    </>
+  );
+};

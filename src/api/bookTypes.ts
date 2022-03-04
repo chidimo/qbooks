@@ -1,26 +1,57 @@
-export declare type Book = {
+type AuthorType = {
+  id: string;
+  name: string;
+};
+
+type GenreType = {
+  id: string;
+  name: string;
+};
+
+type TagType = {
+  id: string;
+  name: string;
+};
+
+export declare type BookType = {
   id: string;
   title: string;
   price: number;
-  available_copies: number;
+  likes: number;
+  rating: number;
+  currency: string;
+  image_url: string;
   featured: boolean | null;
+  available_copies: number;
+  full_description: string;
+  number_of_purchases: number;
+  published_at: string;
+  authors: AuthorType[];
+  tags: TagType[];
+  genres: GenreType[];
 };
 
 export declare type UseSingleBookType = {
   error: any;
   loading: boolean;
-  book: Book;
+  book: BookType;
 };
 
 export declare type UseBookListType = {
   error: any;
   loading: boolean;
-  books: Book[];
+  books: BookType[];
+  totalBooks: number;
+};
+
+export declare type WhereClauseType = {
+  featured?: boolean | null;
+  searchTerm?: string | null;
 };
 
 export declare type BookAPI = {
   query: {
-    useBookList: () => UseBookListType;
+    useBookList: (where?: WhereClauseType) => UseBookListType;
     useSingleBook: (id: string) => UseSingleBookType;
   };
 };

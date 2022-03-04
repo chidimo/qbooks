@@ -3,16 +3,37 @@ const AUTHOR = `
   name
 `;
 
+const GENRE = `
+  id
+  name
+`;
+
+const TAG = `
+  id
+  name
+`;
+
 export const BOOK = `
   id
   title
   price
+  likes
+  rating
   currency
   image_url
-  available_copies
   featured
-  authors{
+  available_copies
+  full_description
+  number_of_purchases
+  published_at
+  authors {
     ${AUTHOR}
+  }
+  genres {
+    ${GENRE}
+  }
+  tags {
+    ${TAG}
   }
 `;
 

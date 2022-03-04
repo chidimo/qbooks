@@ -1,5 +1,11 @@
-import {useState, useEffect, useCallback, ChangeEvent} from 'react';
+import {useState, useEffect, useCallback, ChangeEvent, useRef} from 'react';
+import {useSearchParams} from 'react-router-dom';
 import _ from 'underscore';
+import clx from 'clsx';
+
+import styles from './searchbox.module.scss';
+import {SearchIcon} from 'src/svg/SearchIcon';
+import {CloseIcon} from 'src/svg/CloseIcon';
 
 export const useDebouncedSearch = (onChange: any) => {
   const debouncedSearch = useCallback(
@@ -13,38 +19,53 @@ export const useDebouncedSearch = (onChange: any) => {
 };
 
 type SearchBoxProps = {
-  searchTerm?: string | null;
-  placeholder?: string;
-  onChange: (value:string) => void;
+  parent_class_name?: string;
 };
 
 export const SearchBox = (props: SearchBoxProps): JSX.Element => {
-  const {placeholder, searchTerm, onChange} = props;
-  const [search, setSearch] = useState('');
+  const inputRef = useRef<HTMLInputElement | null>(null);
+  const [value, setValue] = useState<string | null>(null);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const searchTerm = searchParams.get('searchTerm');
 
-  const {debouncedSearch} = useDebouncedSearch(onChange);
-
-  useEffect(() => {
-    setSearch(searchTerm || '');
-  }, [searchTerm]);
+  const {debouncedSearch} = useDebouncedSearch((val: string) =>
+    setSearchParams({searchTerm: val}),
+  );
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const {value} = e.target;
-    setSearch(value);
-    debouncedSearch(value);
+    const v = e.target.value;
+    setValue(v);
+    debouncedSearch(v);
   };
 
+  useEffect(() => {
+    if (searchTerm) {
+      setValue(searchTerm);
+    }
+  }, []);
+
   return (
-    <div>
+    <div className={clx([props.parent_class_name], [styles.search_container])}>
       <label htmlFor="search" aria-hidden="true"></label>
       <input
         id="search"
         name="search"
-        type="search"
-        value={search || ''}
-        placeholder={placeholder}
+        type="text"
+        role="search"
+        ref={node => (inputRef.current = node)}
+        className={clx([styles.search_input])}
+        value={value || ''}
+        placeholder="Search books, genres, authors, etc."
         onChange={handleChange}
       />
+      <div
+        onClick={() => {
+          setValue('');
+          setSearchParams({searchTerm: '' as any});
+        }}
+        className={clx('cursor-pointer', [styles.search_box_icons])}>
+        {value ? <CloseIcon /> : <SearchIcon />}
+      </div>
     </div>
   );
 };

@@ -1,13 +1,32 @@
 import {gql, useQuery} from '@apollo/client';
 
 import {booksQueryString} from './booksQuery';
-import {BookAPI, UseBookListType, UseSingleBookType} from './bookTypes';
+import {
+  BookAPI,
+  UseBookListType,
+  UseSingleBookType,
+  WhereClauseType,
+} from './bookTypes';
 
 export const useBookApi = (): BookAPI => {
   return {
     query: {
-      useBookList(): UseBookListType {
-        const variables = {};
+      useBookList({
+        featured,
+        searchTerm,
+      }: WhereClauseType = {}): UseBookListType {
+        const where: any = {featured};
+        if (searchTerm) {
+          const _or = [
+            {title: searchTerm},
+            {genres: {name: searchTerm}},
+            {tags: {name: searchTerm}},
+          ];
+          where._or = _or;
+        }
+
+        const variables = {where};
+        // console.log(JSON.stringify(variables, null, 2));
 
         const {data, loading, error} = useQuery(
           gql(booksQueryString.LIST_BOOKS),
@@ -17,7 +36,12 @@ export const useBookApi = (): BookAPI => {
           },
         );
 
-        return {error, loading, books: data?.books};
+        return {
+          error,
+          loading,
+          books: data?.books,
+          totalBooks: data?.books.length,
+        };
       },
 
       useSingleBook(id): UseSingleBookType {
@@ -31,7 +55,7 @@ export const useBookApi = (): BookAPI => {
           },
         );
 
-        return {error, loading, book: data?.book};
+        return {error, loading, book: data?.book || {}};
       },
     },
   };

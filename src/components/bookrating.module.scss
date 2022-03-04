@@ -1,0 +1,39 @@
+.purchase_likes_rating {
+  display: -ms-grid;
+  display: grid;
+  grid-template-columns: 1fr 4fr;
+  -ms-grid-columns: 1;
+}
+
+.like_and_purchase {
+  width: 50px;
+  max-height: 50px;
+  display: flex;
+}
+
+.purchases,
+.likes {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+
+  p {
+    margin: 0;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    flex-grow: 1;
+    align-items: center;
+    justify-content: center;
+  }
+
+  p:last-child {
+    margin-top: -10px;
+  }
+}
+
+.rating {
+  padding-left: 10px;
+  border-left: 1px solid #EEEEEE;
+}

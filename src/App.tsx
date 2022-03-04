@@ -1,10 +1,13 @@
 import {ApolloProvider, ApolloClient} from '@apollo/client';
+import Modal from 'react-modal';
 
 import {linkChain} from './appLinks';
 import {ApiProvider} from './api/ApiContext';
 import {InMemoryCache} from '@apollo/client/cache';
 import {Toaster} from 'react-hot-toast';
 import {AppRoutes} from './Routes';
+
+Modal.setAppElement('#root');
 
 export const cache = new InMemoryCache({
   typePolicies: {
