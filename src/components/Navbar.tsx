@@ -9,15 +9,19 @@ import {SearchBox} from 'src/components/SearchBox';
 import styles from './navbar.module.scss';
 import {SearchIcon} from 'src/svg/SearchIcon';
 import {SearchBoxMobile} from './SearchBoxMobile';
+import {useCart} from 'src/context/CartContext';
 
 export const Navbar = () => {
+  const cart = useCart();
   const [mobileSearchVisible, setMobileSearchVisible] = useState(false);
+  const openMobileSearch = () => setMobileSearchVisible(true);
+  const closeMobileSearch = () => setMobileSearchVisible(false);
 
   return (
     <>
       <SearchBoxMobile
         isOpen={mobileSearchVisible}
-        onRequestClose={() => setMobileSearchVisible(false)}
+        onRequestClose={closeMobileSearch}
       />
 
       <nav className={styles.navbar}>
@@ -34,14 +38,12 @@ export const Navbar = () => {
             </a>
           </div>
 
-          <SearchBox
-            parent_class_name={clx([styles.navbar_desktop_search_box])}
-          />
+          <SearchBox parent_class_name={clx([styles.hide_search_bar])} />
 
           <div className={styles.navbar_right}>
             <div
               className={styles.toggle_search_box}
-              onClick={() => setMobileSearchVisible(true)}>
+              onClick={openMobileSearch}>
               <SearchIcon />
             </div>
 
@@ -50,11 +52,13 @@ export const Navbar = () => {
                 <BooksIcon />
               </Link>
             </div>
-            <div className={styles.cart_and_count}>
+            <div
+              onClick={cart.openCart}
+              className={clx('cursor-pointer', [styles.cart_and_count])}>
               <p>
                 <CartIcon width={24} height={24} />
               </p>
-              <p>3</p>
+              {!cart.emptyCart && <p>{cart.cartItems.length}</p>}
             </div>
           </div>
         </div>

@@ -13,8 +13,6 @@ export const BookFeaturedCard = (props: Props) => {
   const {book} = props;
   const navigate = useNavigate();
 
-  const isAvailable = book.available_copies > 0;
-
   return (
     <div
       className={styles.feature_container}
@@ -23,7 +21,7 @@ export const BookFeaturedCard = (props: Props) => {
         <img src={book.image_url} alt={book.title} />
 
         <div className={styles.feature_meta}>
-          {isAvailable ? (
+          {book.availableForSale ? (
             <span className="text-success">Available</span>
           ) : (
             <span className="text-danger">Out of stock</span>

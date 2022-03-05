@@ -23,6 +23,8 @@ export declare type BookType = {
   image_url: string;
   featured: boolean | null;
   available_copies: number;
+  sellableQuantity: number; // client-only field
+  availableForSale: boolean;// client-only field
   full_description: string;
   number_of_purchases: number;
   published_at: string;

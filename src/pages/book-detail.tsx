@@ -15,6 +15,7 @@ const BookDetail = () => {
       {loading && <p>Refreshing</p>}
 
       <h1>Book Detail: {bookId}</h1>
+      <p>Sellable {book.sellableQuantity}</p>
       <pre>{JSON.stringify(book, null, 2)}</pre>
     </div>
   );
