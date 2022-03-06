@@ -1,6 +1,6 @@
 import {makeVar, ReactiveVar, useReactiveVar} from '@apollo/client';
 
-import {CartItemType} from 'src/context/cartTypes';
+import {CartItemType, CartUpdateType, IdType} from 'src/context/cartTypes';
 
 const initState: CartItemType[] = [];
 const flimsy_cart = 'flimsy_cart';
@@ -28,12 +28,7 @@ export const addItemToReactiveCart = (value: CartItemType) => {
   localStorage.setItem(flimsy_cart, JSON.stringify(current));
 };
 
-export declare type ReactiveCartUpdatetype = 'increase' | 'decrease' | 'remove';
-
-export const updateReactiveCart = (
-  id: string | number,
-  updateType: ReactiveCartUpdatetype,
-) => {
+export const updateReactiveCart = (id: IdType, updateType: CartUpdateType) => {
   const state = reactiveCartState();
   let current = state;
 

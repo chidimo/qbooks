@@ -22,9 +22,11 @@ export const BOOK = `
   currency
   image_url
   featured
+  publisher
+  subtitle
   available_copies
-  sellableQuantity @client
-  availableForSale @client
+  outOfStock @client
+  quantityInStock @client
   full_description
   number_of_purchases
   published_at

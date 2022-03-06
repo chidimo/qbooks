@@ -31,7 +31,9 @@ export const BookRating = (props: Props) => {
       </div>
 
       <div className={styles.rating}>
-        <p>Rating: {book.rating}</p>
+        <p>
+          <span className="font-bold">Ratings</span>: {book.rating}
+        </p>
         <StarIcon />
       </div>
     </div>

@@ -1,8 +1,5 @@
 .purchase_likes_rating {
-  display: -ms-grid;
-  display: grid;
-  grid-template-columns: 1fr 4fr;
-  -ms-grid-columns: 1;
+  display: flex;
 }
 
 .like_and_purchase {
@@ -36,4 +33,5 @@
 .rating {
   padding-left: 10px;
   border-left: 1px solid #EEEEEE;
+  white-space: nowrap;
 }

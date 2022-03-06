@@ -1,30 +1,22 @@
+import {useApolloClient, gql} from '@apollo/client';
 import {createContext, useContext, ReactNode, useState} from 'react';
+
 import {
-  addItemToReactiveCart,
-  ReactiveCartUpdatetype,
   updateReactiveCart,
   useReactiveCartstate,
+  addItemToReactiveCart,
 } from 'src/reactive/cart';
-import {CartItemType} from './cartTypes';
-
-type CartProps = {
-  emptyCart: boolean;
-  cartIsOpen: boolean;
-  totalSum: number;
-  cartItems: CartItemType[];
-  checkout: () => void;
-  openCart: () => void;
-  closeCart: () => void;
-  addItemToCart: (item: CartItemType) => void;
-  updateCartItem: (id: string | number, type: ReactiveCartUpdatetype) => void;
-};
+import {CartItemType, CartProps, CartUpdateType, IdType} from './cartTypes';
 
 const CartContext = createContext<CartProps | undefined>(undefined);
 
 type Props = {children: ReactNode};
 
 export function CartProvider({children}: Props) {
+  const client = useApolloClient();
+  console.log('client', client);
   const cartItemsReactive = useReactiveCartstate();
+
   const [cartIsOpen, setCartIsOpen] = useState(false);
   const openCart = () => setCartIsOpen(true);
   const closeCart = () => setCartIsOpen(false);
@@ -42,8 +34,21 @@ export function CartProvider({children}: Props) {
     openCart();
   };
 
-  const updateCartItem = (id: string | number, type: ReactiveCartUpdatetype) =>
+  const updateCartItem = (id: IdType, type: CartUpdateType) => {
     updateReactiveCart(id, type);
+    const fragment = {
+      id: `Books:${id}`,
+      fragment: gql`
+        fragment Books on Books {
+          quantityInStock @client
+        }
+      `,
+      data: {
+        quantityInStock: 0,
+      },
+    };
+    client.cache.writeFragment(fragment);
+  };
 
   const checkout = () => {
     alert(`Checkout ${totalSum}`);

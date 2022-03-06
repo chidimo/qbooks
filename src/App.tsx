@@ -15,13 +15,16 @@ export const cache = new InMemoryCache({
   typePolicies: {
     Books: {
       fields: {
-        availableForSale: {
+        outOfStock: {
           read(_, {readField}) {
-            const copies = readField('sellableQuantity');
-            return copies ? copies > 0 : false;
+            const saleable = readField('quantityInStock');
+            if (!saleable) {
+              return true;
+            }
+            return saleable < 1;
           },
         },
-        sellableQuantity: {
+        quantityInStock: {
           read(_, data) {
             const {readField} = data;
             const bookId = readField('id');

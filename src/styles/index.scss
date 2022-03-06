@@ -1,5 +1,6 @@
 * {
   box-sizing: border-box;
+  font-family: Ubuntu, sans-serif;
 }
 
 a {
@@ -8,7 +9,6 @@ a {
 
 body {
   margin: 0;
-  font-family: Ubuntu, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -62,4 +62,20 @@ p {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.text-left {
+  text-align: left;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.grid {
+  display: grid;
+}
+
+.grid-cols-2 {
+  grid-template-columns: 1fr 1fr;
 }

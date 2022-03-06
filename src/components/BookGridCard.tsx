@@ -1,10 +1,12 @@
 import clx from 'clsx';
+import toast from 'react-hot-toast';
 import {useNavigate} from 'react-router-dom';
 
 import {BookType} from 'src/api/bookTypes';
 import {useCart} from 'src/context/CartContext';
 import {CartIcon} from 'src/svg/CartIcon';
 import {formatAsCurrency} from 'src/utils/formatAsCurrency';
+import {formatDateAsYear} from 'src/utils/formatDate';
 import styles from './bookgridview.module.scss';
 import {BookRating} from './BookRating';
 
@@ -32,7 +34,7 @@ export const BookGridCard = (props: Props) => {
         <h3 className={styles.book_title}>{book.title}</h3>
 
         <span>
-          {authors} - {book.published_at?.substring(0, 4)}
+          {authors} - {formatDateAsYear(book.published_at)}
         </span>
 
         <span>{genres}</span>
@@ -42,12 +44,12 @@ export const BookGridCard = (props: Props) => {
         <div className={styles.price_container}>
           <span>{formatAsCurrency(book.price)}</span>
           <span>
-            {book.availableForSale ? (
-              <span className="text-success ml-2">
-                {book.sellableQuantity} Copies Available
-              </span>
-            ) : (
+            {book.outOfStock ? (
               <span className="text-danger ml-2">Out of stock</span>
+            ) : (
+              <span className="text-success ml-2">
+                {book.quantityInStock} Copies Available
+              </span>
             )}
           </span>
         </div>
@@ -55,8 +57,8 @@ export const BookGridCard = (props: Props) => {
         <div
           onClick={e => {
             e.stopPropagation();
-
-            if (!book.availableForSale) {
+            if (book.outOfStock) {
+              toast(`${book.title} is out of stock`);
               return;
             }
             cart.addItemToCart({
@@ -69,7 +71,7 @@ export const BookGridCard = (props: Props) => {
             });
           }}
           className={clx('cursor-pointer', [styles.add_to_cart], {
-            [styles.out_of_stock]: !book.availableForSale,
+            [styles.out_of_stock]: book.outOfStock,
           })}>
           <CartIcon /> <span>Add to cart</span>
         </div>

@@ -1,0 +1,159 @@
+.back_button {
+  padding: 30px 0;
+
+  a {
+    display: flex;
+    align-items: center;
+
+    &:visited {
+      color: #000;
+    }
+  }
+
+  a>span {
+    margin-left: 20px;
+  }
+}
+
+.book_container {
+  display: flex;
+  flex-direction: column;
+
+  @media screen and (min-width: 768px) {
+    flex-direction: row;
+  }
+}
+
+.book_cover {
+  height: 200px;
+  width: 133px;
+  min-width: 133px;
+  background: #FFFFFF;
+  box-shadow: 0px 30px 30px rgba(0, 0, 0, 0.15);
+
+  @media screen and (min-width:768px) {
+    height: 364px;
+    width: 243px;
+    min-width: 243px;
+  }
+
+  img {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.book_details {
+  @media screen and (min-width:768px) {
+    padding-left: 50px;
+  }
+}
+
+.book_title {
+  font-size: 36px;
+  color: #000000;
+  padding-top: 30px;
+  padding-bottom: 30px;
+
+  @media screen and (min-width:768px) {
+    padding-top: 10px;
+  }
+}
+
+.author_and_year {
+  padding-bottom: 20px;
+}
+
+.rating_section {
+  grid-area: rating;
+}
+
+.genre_section {
+  grid-area: genre;
+}
+
+.tag_section {
+  grid-area: tag;
+}
+
+.publisher_section {
+  grid-area: publisher;
+}
+
+.release_section {
+  grid-area: release;
+}
+
+.book_meta {
+  display: grid;
+  grid-template-areas:
+    "rating rating"
+    "genre tag"
+    "publisher release";
+
+  @media screen and (min-width:768px) {
+    display: grid;
+    grid-template-areas: 'rating genre tag publisher release';
+  }
+}
+
+.book_description {
+  white-space: break-spaces;
+  font-size: 16px;
+  line-height: 30px;
+  padding-bottom: 100px;
+}
+
+.add_to_cart_button {
+  color: #fff;
+  height: 70px;
+  font-size: 18px;
+  padding: 0 20px;
+  background: #000000;
+  box-shadow: 0px 0px 40px rgba(0, 0, 0, 0.05);
+  outline: none;
+  border: none;
+  cursor: pointer;
+}
+
+.mobile_add_to_cart_button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  position: fixed;
+  width: 80%;
+  bottom: 0;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  @media screen and (min-width: 768px) {
+    display: none;
+  }
+
+  .add_text {
+    margin-left: 20px;
+  }
+}
+
+.book_price {
+  font-size: 28px;
+}
+
+.desktop_add_cart {
+  margin-top: 35px;
+
+  display: none;
+
+  @media screen and (min-width:768px) {
+    display: block;
+  }
+}
+
+.desktop_add_to_cart_button {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 15px;
+}
