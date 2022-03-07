@@ -12,6 +12,14 @@
 .featured_content {
   height: $featured-section-height;
   margin-top: 25px;
+
+  margin-left: -$container-x-space;
+  margin-right: -$container-x-space;
+
+  @media screen and (min-width: 768px) {
+    margin-left: -$container-x-space-desktop;
+    margin-right: -$container-x-space-desktop;
+  }
 }
 
 .featured_hide {
@@ -27,6 +35,7 @@
   display: flex;
   overflow-x: auto;
   font-size: 12px;
+  scroll-behavior: smooth;
 }
 
 .scroll_indicators {

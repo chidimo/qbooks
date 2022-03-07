@@ -1,12 +1,15 @@
 import {Outlet} from 'react-router-dom';
-import {useCart} from 'src/context/CartContext';
-import {Cart} from './Cart';
 
-import styles from './container.module.scss';
+import {Cart} from './Cart';
 import {Navbar} from './Navbar';
+import {useCart} from 'src/context/CartContext';
+import {useSearch} from 'src/context/SearchContext';
+import styles from './container.module.scss';
+import {SearchBoxMobile} from './SearchBoxMobile';
 
 export const Container = () => {
   const cart = useCart();
+  const search = useSearch();
 
   return (
     <>
@@ -15,6 +18,10 @@ export const Container = () => {
         <Outlet />
       </div>
       <Cart isOpen={cart.cartIsOpen} onRequestClose={cart.closeCart} />
+      <SearchBoxMobile
+        isOpen={search.searchOpen}
+        onRequestClose={search.closeSearch}
+      />
     </>
   );
 };

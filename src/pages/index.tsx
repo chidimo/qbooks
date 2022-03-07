@@ -6,9 +6,11 @@ import {BookGridCard} from 'src/components/BookGridCard';
 import styles from 'src/styles/index.module.scss';
 import {BookType} from 'src/api/bookTypes';
 import {BookFeaturedCard} from 'src/components/BookFeaturedCard';
+import {useRef} from 'react';
 
 const Home = () => {
   const api = useApi();
+  const featuredRef = useRef<HTMLDivElement | null>(null);
   const [searchParams] = useSearchParams();
   const searchTerm = searchParams.get('searchTerm');
 
@@ -44,7 +46,9 @@ const Home = () => {
             <p className={styles.featured_loader}>Loading featured books</p>
           )}
 
-          <div className={clx('hide_scrollbar', [styles.featured_carousel])}>
+          <div
+            ref={node => (featuredRef.current = node)}
+            className={clx('hide_scrollbar', [styles.featured_carousel])}>
             {featuredBooks?.map((book: BookType, index: number) => {
               return (
                 <BookFeaturedCard
@@ -61,11 +65,28 @@ const Home = () => {
             {featuredBooks?.map((f, i) => {
               // on another day we would write a better algorithm for this
               // probably based on intersection observer
-              const isActive = i === Math.floor(totalFeatured / 2);
+              const picWidth = 330; // width of a featured card
+              const midPoint = Math.floor(totalFeatured / 2);
+              const isActive = i === midPoint;
+              const scrollWidth =
+                i === 0 ? picWidth * (totalFeatured - 1) : picWidth * i;
+
               return (
                 <div
                   key={f.id}
-                  className={clx({[styles.active_dot]: isActive})}
+                  onClick={() => {
+                    if (featuredRef.current) {
+                      if (i > midPoint) {
+                        featuredRef.current.scrollLeft += scrollWidth;
+                      }
+                      if (i < midPoint) {
+                        featuredRef.current.scrollLeft -= scrollWidth;
+                      }
+                    }
+                  }}
+                  className={clx('cursor-pointer', {
+                    [styles.active_dot]: isActive,
+                  })}
                 />
               );
             })}

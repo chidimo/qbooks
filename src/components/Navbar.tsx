@@ -1,5 +1,4 @@
 import clx from 'clsx';
-import {useState} from 'react';
 import {Link} from 'react-router-dom';
 
 import {BooksIcon} from 'src/svg/BooksIcon';
@@ -8,22 +7,15 @@ import {CartIcon} from 'src/svg/CartIcon';
 import {SearchBox} from 'src/components/SearchBox';
 import styles from './navbar.module.scss';
 import {SearchIcon} from 'src/svg/SearchIcon';
-import {SearchBoxMobile} from './SearchBoxMobile';
 import {useCart} from 'src/context/CartContext';
+import {useSearch} from 'src/context/SearchContext';
 
 export const Navbar = () => {
   const cart = useCart();
-  const [mobileSearchVisible, setMobileSearchVisible] = useState(false);
-  const openMobileSearch = () => setMobileSearchVisible(true);
-  const closeMobileSearch = () => setMobileSearchVisible(false);
+  const mSearch = useSearch();
 
   return (
     <>
-      <SearchBoxMobile
-        isOpen={mobileSearchVisible}
-        onRequestClose={closeMobileSearch}
-      />
-
       <nav className={styles.navbar}>
         <div className={styles.navbar_wrapper}>
           <div className={styles.navbar_brand}>
@@ -43,7 +35,7 @@ export const Navbar = () => {
           <div className={styles.navbar_right}>
             <div
               className={styles.toggle_search_box}
-              onClick={openMobileSearch}>
+              onClick={mSearch.openSearch}>
               <SearchIcon />
             </div>
 

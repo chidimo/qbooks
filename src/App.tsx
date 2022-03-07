@@ -8,6 +8,7 @@ import {ApiProvider} from './api/ApiContext';
 import {AppRoutes} from './Routes';
 import {CartProvider} from './context/CartContext';
 import {CartItemType} from './context/cartTypes';
+import {SearchProvider} from './context/SearchContext';
 
 Modal.setAppElement('#root');
 
@@ -63,9 +64,11 @@ function App() {
     <ApolloProvider client={client}>
       <Toaster />
       <ApiProvider>
-        <CartProvider>
-          <AppRoutes />
-        </CartProvider>
+        <SearchProvider>
+          <CartProvider>
+            <AppRoutes />
+          </CartProvider>
+        </SearchProvider>
       </ApiProvider>
     </ApolloProvider>
   );

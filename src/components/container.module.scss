@@ -1,11 +1,12 @@
-$top-padding: 100px;
+@import 'src/styles/variables.scss';
 
 .container {
-
-  padding: $top-padding 15px 0 15px;
+  padding-top: 100px;
+  padding-left: $container-x-space;
+  padding-right: $container-x-space;
 
   @media screen and (min-width: 768px) {
-    padding: $top-padding 50px 0 50px;
-
+    padding-left: $container-x-space-desktop;
+    padding-right: $container-x-space-desktop;
   }
 }
