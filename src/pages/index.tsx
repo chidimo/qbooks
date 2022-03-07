@@ -58,11 +58,17 @@ const Home = () => {
           </div>
 
           <div className={styles.scroll_indicators}>
-            {featuredBooks?.map((f, i) => (
-              <div
-                key={f.id}
-                className={clx({[styles.active_dot]: i === 3})}></div>
-            ))}
+            {featuredBooks?.map((f, i) => {
+              // on another day we would write a better algorithm for this
+              // probably based on intersection observer
+              const isActive = i === Math.floor(totalFeatured / 2);
+              return (
+                <div
+                  key={f.id}
+                  className={clx({[styles.active_dot]: isActive})}
+                />
+              );
+            })}
           </div>
         </div>
       </div>

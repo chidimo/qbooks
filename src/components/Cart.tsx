@@ -35,7 +35,7 @@ export const Cart = (props: Props) => {
           className={clx([styles.cart_items_wrapper], {
             'flex-center': cart.emptyCart,
           })}>
-          {cart.emptyCart && <p>You have no item in your cart</p>}
+          {cart.emptyCart && <p>Your cart is empty</p>}
 
           <div className={styles.cart_items_list}>
             {cart.cartItems.map((item: CartItemType) => {

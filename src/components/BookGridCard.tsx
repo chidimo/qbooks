@@ -58,7 +58,7 @@ export const BookGridCard = (props: Props) => {
           onClick={e => {
             e.stopPropagation();
             if (book.outOfStock) {
-              toast(`${book.title} is out of stock`);
+              toast.error(`${book.title} is out of stock`);
               return;
             }
             cart.addItemToCart({

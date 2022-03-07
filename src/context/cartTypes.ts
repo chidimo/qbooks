@@ -9,6 +9,11 @@ export declare type CartItemType = {
   author: string;
 };
 
+export declare type ReadQuantityFragment = {
+  available_copies: number;
+  quantityInStock: number;
+};
+
 export declare type CartUpdateType = 'increase' | 'decrease' | 'remove';
 
 export declare type CartProps = {

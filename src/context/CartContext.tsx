@@ -1,5 +1,7 @@
 import {useApolloClient, gql} from '@apollo/client';
 import {createContext, useContext, ReactNode, useState} from 'react';
+import toast from 'react-hot-toast';
+
 import {BookType} from 'src/api/bookTypes';
 
 import {
@@ -7,7 +9,14 @@ import {
   useReactiveCartstate,
   addItemToReactiveCart,
 } from 'src/reactive/cart';
-import {CartItemType, CartProps, CartUpdateType, IdType} from './cartTypes';
+import {formatAsCurrency} from 'src/utils/formatAsCurrency';
+import {
+  CartItemType,
+  CartProps,
+  CartUpdateType,
+  IdType,
+  ReadQuantityFragment,
+} from './cartTypes';
 
 const CartContext = createContext<CartProps | undefined>(undefined);
 
@@ -31,20 +40,21 @@ export function CartProvider({children}: Props) {
 
   const fragment = gql`
     fragment Books on Books {
+      available_copies
       quantityInStock @client
     }
   `;
 
-  const readQuantity = (id: IdType) => {
+  const readQuantity = (id: IdType): ReadQuantityFragment => {
     const data: BookType | null = client.cache.readFragment({
       id: `Books:${id}`,
       fragment,
     });
-    return data ? data.quantityInStock : 0;
+    return data ? data : {available_copies: 0, quantityInStock: 0};
   };
 
   const addItemToCart = (item: CartItemType) => {
-    const q = readQuantity(item.id);
+    const {quantityInStock: q} = readQuantity(item.id);
     addItemToReactiveCart(item);
 
     client.cache.writeFragment({
@@ -55,13 +65,14 @@ export function CartProvider({children}: Props) {
       },
     });
     openCart();
+    toast.success(`${item.title} is now in your cart`);
   };
 
   const updateCartItem = (id: IdType, type: CartUpdateType) => {
-    const q = readQuantity(id);
+    const {quantityInStock: q, available_copies: av} = readQuantity(id);
 
     if (type === 'increase' && q === 0) {
-      // run out of stock, do not proceed
+      toast.error('No more items in stock');
       return;
     }
 
@@ -75,7 +86,7 @@ export function CartProvider({children}: Props) {
       quantityInStock += 1;
     }
     if (type === 'remove') {
-      quantityInStock += 1;
+      quantityInStock = av;
     }
 
     client.cache.writeFragment({
@@ -88,7 +99,7 @@ export function CartProvider({children}: Props) {
   };
 
   const checkout = () => {
-    alert(`Checkout ${totalSum}`);
+    toast.success(`Checkout ${formatAsCurrency(totalSum)}`);
   };
 
   const value = {

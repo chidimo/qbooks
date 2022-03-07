@@ -19,18 +19,17 @@ export const useBookApi = (): BookAPI => {
         if (searchTerm) {
           const _or = [
             {title: searchTerm},
-            {genres: {name: searchTerm}},
             {tags: {name: searchTerm}},
+            {genres: {name: searchTerm}},
+            {authors: {name: searchTerm}},
           ];
           where._or = _or;
         }
 
-        const variables = {where};
-
         const {data, loading, error} = useQuery(
           gql(booksQueryString.LIST_BOOKS),
           {
-            variables,
+            variables: {where},
             fetchPolicy: 'cache-and-network',
           },
         );

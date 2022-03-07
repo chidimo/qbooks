@@ -16,6 +16,7 @@ export const BookRating = (props: Props) => {
 
   return (
     <div className={styles.purchase_likes_rating}>
+
       <div className={styles.like_and_purchase}>
         <div className={styles.purchases}>
           <p>
@@ -32,13 +33,13 @@ export const BookRating = (props: Props) => {
         </div>
       </div>
 
-      <div className={clx('flex-grow', [styles.rating])}>
+      <div className={clx('', [styles.rating])}>
         <p>
           <span className="font-bold">Rating</span>: {book.rating}
         </p>
         <ReactStars
           count={5}
-          size={24}
+          size={20}
           color1="#DDDDDD"
           color2="#EBA430"
           value={book.rating}

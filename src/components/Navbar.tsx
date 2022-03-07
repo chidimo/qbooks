@@ -33,7 +33,7 @@ export const Navbar = () => {
               </div>
               <div>
                 <p>Flimsy Books</p>
-                <p className={styles.slogan}>A place to share your books</p>
+                <p className={styles.slogan}>A fictitious books company</p>
               </div>
             </a>
           </div>
