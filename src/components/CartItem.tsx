@@ -14,7 +14,7 @@ export const CartItem = (props: Props) => {
   const cart = useCart();
 
   return (
-    <div className={styles.parent}>
+    <div className="font-14">
       <div className={styles.item_container}>
         <div className={styles.item_details}>
           <div className={styles.cart_item_image}>
@@ -62,6 +62,8 @@ export const CartItem = (props: Props) => {
           </div>
         </div>
       </div>
+
+      <div className={styles.item_divider} />
     </div>
   );
 };

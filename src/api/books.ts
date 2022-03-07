@@ -26,7 +26,6 @@ export const useBookApi = (): BookAPI => {
         }
 
         const variables = {where};
-        // console.log(JSON.stringify(variables, null, 2));
 
         const {data, loading, error} = useQuery(
           gql(booksQueryString.LIST_BOOKS),

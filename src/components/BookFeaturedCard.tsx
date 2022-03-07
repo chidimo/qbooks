@@ -1,13 +1,15 @@
 import clx from 'clsx';
 import {useNavigate} from 'react-router-dom';
 
-import styles from 'src/components/bookfeaturedview.module.scss';
+import styles from 'src/components/bookfeaturedcard.module.scss';
 import {BookType} from 'src/api/bookTypes';
 import {BookRating} from './BookRating';
 import {formatDateAsYear} from 'src/utils/formatDate';
 
 type Props = {
   book: BookType;
+  isFirst: boolean;
+  isLast: boolean;
 };
 
 export const BookFeaturedCard = (props: Props) => {
@@ -16,7 +18,10 @@ export const BookFeaturedCard = (props: Props) => {
 
   return (
     <div
-      className={styles.feature_container}
+      className={clx([styles.feature_container], {
+        'ml-0': props.isFirst,
+        'mr-0': props.isLast,
+      })}
       onClick={() => navigate(`/book/${book.id}`)}>
       <div className={styles.image_container}>
         <img src={book.image_url} alt={book.title} />

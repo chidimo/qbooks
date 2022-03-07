@@ -95,7 +95,8 @@ const BookDetail = () => {
             </div>
           </div>
 
-          <hr />
+          <div className="divider" />
+          
           <div className={styles.book_meta}>
             <div className={styles.rating_section}>
               <BookRating book={book} />
@@ -121,7 +122,7 @@ const BookDetail = () => {
               <p>{formatDate(book.published_at)}</p>
             </div>
           </div>
-          <hr />
+          <div className="divider" />
 
           <pre className={styles.book_description}>{book.full_description}</pre>
         </div>

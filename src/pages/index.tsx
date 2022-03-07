@@ -19,10 +19,13 @@ const Home = () => {
   } = api.bookApi.query.useBookList({
     searchTerm,
   });
-  const {books: featuredBooks, loading: loadingFeatured} =
-    api.bookApi.query.useBookList({
-      featured: true,
-    });
+  const {
+    books: featuredBooks,
+    loading: loadingFeatured,
+    totalBooks: totalFeatured,
+  } = api.bookApi.query.useBookList({
+    featured: true,
+  });
 
   return (
     <>
@@ -33,32 +36,50 @@ const Home = () => {
         <p className={clx('font-bold text-14', [styles.featured_header])}>
           Featured books
         </p>
-        <hr />
+
+        <div className="divider" />
 
         <div className={styles.featured_content}>
           {loadingFeatured && !featuredBooks && (
             <p className={styles.featured_loader}>Loading featured books</p>
           )}
 
-          <div className={clx([styles.featured_carousel])}>
-            {featuredBooks?.map((book: BookType) => {
-              return <BookFeaturedCard key={book.id} book={book} />;
+          <div className={clx('hide_scrollbar', [styles.featured_carousel])}>
+            {featuredBooks?.map((book: BookType, index: number) => {
+              return (
+                <BookFeaturedCard
+                  key={book.id}
+                  book={book}
+                  isFirst={index === 0}
+                  isLast={index === totalFeatured - 1}
+                />
+              );
             })}
+          </div>
+
+          <div className={styles.scroll_indicators}>
+            {featuredBooks?.map((f, i) => (
+              <div
+                key={f.id}
+                className={clx({[styles.active_dot]: i === 3})}></div>
+            ))}
           </div>
         </div>
       </div>
 
       <div>
-        {searchTerm ? (
-          <p className="text-14">
-            <span className="font-bold">{totalBooks} results </span>found for{' '}
-            <span className="font-bold">&apos;{searchTerm}&apos;</span>
-          </p>
-        ) : (
-          <p className="font-bold text-14">All books</p>
-        )}
+        <div className={styles.all_section_heading}>
+          {searchTerm ? (
+            <p className="text-14">
+              <span className="font-bold">{totalBooks} results </span>found for{' '}
+              <span className="font-bold">&apos;{searchTerm}&apos;</span>
+            </p>
+          ) : (
+            <p className="font-bold text-14">All books</p>
+          )}
+        </div>
 
-        <hr />
+        <div className="divider" />
 
         {loading && !allBooks && (
           <p>{searchTerm ? 'Searching' : 'Loading all'} books</p>

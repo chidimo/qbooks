@@ -1,5 +1,6 @@
 import {useApolloClient, gql} from '@apollo/client';
 import {createContext, useContext, ReactNode, useState} from 'react';
+import {BookType} from 'src/api/bookTypes';
 
 import {
   updateReactiveCart,
@@ -14,7 +15,6 @@ type Props = {children: ReactNode};
 
 export function CartProvider({children}: Props) {
   const client = useApolloClient();
-  console.log('client', client);
   const cartItemsReactive = useReactiveCartstate();
 
   const [cartIsOpen, setCartIsOpen] = useState(false);
@@ -29,25 +29,62 @@ export function CartProvider({children}: Props) {
 
   const emptyCart = cartItemsReactive.length === 0;
 
+  const fragment = gql`
+    fragment Books on Books {
+      quantityInStock @client
+    }
+  `;
+
+  const readQuantity = (id: IdType) => {
+    const data: BookType | null = client.cache.readFragment({
+      id: `Books:${id}`,
+      fragment,
+    });
+    return data ? data.quantityInStock : 0;
+  };
+
   const addItemToCart = (item: CartItemType) => {
+    const q = readQuantity(item.id);
     addItemToReactiveCart(item);
+
+    client.cache.writeFragment({
+      id: `Books:${item.id}`,
+      fragment,
+      data: {
+        quantityInStock: q - item.quantity,
+      },
+    });
     openCart();
   };
 
   const updateCartItem = (id: IdType, type: CartUpdateType) => {
+    const q = readQuantity(id);
+
+    if (type === 'increase' && q === 0) {
+      // run out of stock, do not proceed
+      return;
+    }
+
     updateReactiveCart(id, type);
-    const fragment = {
+
+    let quantityInStock = q;
+    if (type === 'increase') {
+      quantityInStock -= 1;
+    }
+    if (type === 'decrease') {
+      quantityInStock += 1;
+    }
+    if (type === 'remove') {
+      quantityInStock += 1;
+    }
+
+    client.cache.writeFragment({
       id: `Books:${id}`,
-      fragment: gql`
-        fragment Books on Books {
-          quantityInStock @client
-        }
-      `,
+      fragment,
       data: {
-        quantityInStock: 0,
+        quantityInStock,
       },
-    };
-    client.cache.writeFragment(fragment);
+    });
   };
 
   const checkout = () => {
