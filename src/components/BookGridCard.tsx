@@ -30,7 +30,7 @@ export const BookGridCard = (props: Props) => {
         <img src={book.image_url} alt={book.title} />
       </div>
 
-      <div className={styles.meta_container}>
+      <div className={styles.meta_wrapper}>
         <h3 className={styles.book_title}>{book.title}</h3>
 
         <span>
@@ -41,7 +41,7 @@ export const BookGridCard = (props: Props) => {
 
         <BookRating book={book} />
 
-        <div className={styles.price_container}>
+        <div className={styles.price_wrapper}>
           <span>{formatAsCurrency(book.price)}</span>
           <span>
             {book.outOfStock ? (

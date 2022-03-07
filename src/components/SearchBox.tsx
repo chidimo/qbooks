@@ -1,22 +1,11 @@
-import {useState, useEffect, useCallback, ChangeEvent, useRef} from 'react';
-import {useSearchParams} from 'react-router-dom';
-import _ from 'underscore';
+import {useState, useEffect, ChangeEvent, useRef} from 'react';
 import clx from 'clsx';
 
 import styles from './searchbox.module.scss';
 import {SearchIcon} from 'src/svg/SearchIcon';
 import {CloseIcon} from 'src/svg/CloseIcon';
-
-export const useDebouncedSearch = (onChange: any) => {
-  const debouncedSearch = useCallback(
-    _.debounce((inp: any) => {
-      onChange(inp);
-    }, 500),
-    [],
-  );
-
-  return {debouncedSearch};
-};
+import {useUrlQuery} from 'src/hooks/useUrlQuery';
+import {useDebouncedSearch} from 'src/hooks/useDebouncedSearch';
 
 type SearchBoxProps = {
   parent_class_name?: string;
@@ -25,11 +14,10 @@ type SearchBoxProps = {
 export const SearchBox = (props: SearchBoxProps): JSX.Element => {
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [value, setValue] = useState<string | null>(null);
-  const [searchParams, setSearchParams] = useSearchParams();
-  const searchTerm = searchParams.get('searchTerm');
 
+  const {searchTerm, updateSearchTerm} = useUrlQuery();
   const {debouncedSearch} = useDebouncedSearch((val: string) =>
-    setSearchParams({searchTerm: val}),
+    updateSearchTerm(val),
   );
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -45,7 +33,7 @@ export const SearchBox = (props: SearchBoxProps): JSX.Element => {
   }, []);
 
   return (
-    <div className={clx([props.parent_class_name], [styles.search_container])}>
+    <div className={clx([props.parent_class_name], [styles.search_wrapper])}>
       <label htmlFor="search" aria-hidden="true"></label>
       <input
         id="search"
@@ -62,7 +50,7 @@ export const SearchBox = (props: SearchBoxProps): JSX.Element => {
         onClick={() => {
           if (searchTerm) {
             setValue('');
-            setSearchParams({searchTerm: '' as any});
+            updateSearchTerm('');
             inputRef.current?.focus();
           }
         }}

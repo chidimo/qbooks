@@ -19,7 +19,7 @@ export const Cart = (props: Props) => {
 
   return (
     <ModalComponent isOpen={props.isOpen} onRequestClose={props.onRequestClose}>
-      <div className={styles.cart_container}>
+      <div className={styles.cart_wrapper}>
         <div className={styles.cart_header}>
           <div
             onClick={props.onRequestClose}

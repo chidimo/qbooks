@@ -1,6 +1,6 @@
 @import 'src/styles/variables.scss';
 
-.feature_container {
+.feature_wrapper {
   position: relative;
   width: $featured-section-width !important;
   min-width: $featured-section-width !important;
@@ -9,8 +9,7 @@
   box-shadow: 0px 30px 60px rgba(0, 0, 0, 0.15);
 }
 
-
-.image_container {
+.image_wrapper {
   img {
     width: 100%;
     height: $featured-section-height;

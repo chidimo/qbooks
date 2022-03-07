@@ -17,7 +17,7 @@ export const SearchBoxMobile = (props: Props) => {
       isOpen={props.isOpen}
       onRequestClose={props.onRequestClose}>
       <div className={clx([styles.parent])}>
-        <div onClick={props.onRequestClose} className={styles.arrow_container}>
+        <div onClick={props.onRequestClose} className={styles.arrow_wrapper}>
           <BackArrowIcon />
         </div>
         <SearchBox />

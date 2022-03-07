@@ -1,18 +1,20 @@
 import clx from 'clsx';
-import {useSearchParams} from 'react-router-dom';
+import {useRef, useState} from 'react';
 
 import {useApi} from 'src/api/ApiContext';
 import {BookGridCard} from 'src/components/BookGridCard';
 import styles from 'src/styles/index.module.scss';
 import {BookType} from 'src/api/bookTypes';
 import {BookFeaturedCard} from 'src/components/BookFeaturedCard';
-import {useRef} from 'react';
+import {PreviousIcon} from 'src/svg/PreviousIcon';
+import {NextIcon} from 'src/svg/NextIcon';
+import {useUrlQuery} from 'src/hooks/useUrlQuery';
 
 const Home = () => {
   const api = useApi();
+  const {searchTerm} = useUrlQuery();
+  const [activeDot, setActiveDot] = useState(0);
   const featuredRef = useRef<HTMLDivElement | null>(null);
-  const [searchParams] = useSearchParams();
-  const searchTerm = searchParams.get('searchTerm');
 
   const {
     books: allBooks,
@@ -29,22 +31,61 @@ const Home = () => {
     featured: true,
   });
 
+  const scrollStep = 330; // width of a featured card
+
+  type ScrollType = 'previous' | 'next';
+  const handleArrowClick = (direction: ScrollType) => {
+    if (featuredRef.current) {
+      let indicator = 0;
+      let scroll = scrollStep;
+
+      if (direction === 'previous') {
+        scroll = -scrollStep;
+        indicator = activeDot - 1;
+      }
+      if (direction === 'next') {
+        scroll = scrollStep;
+        indicator = activeDot + 1;
+      }
+      featuredRef.current.scrollLeft += scroll;
+      setActiveDot(indicator);
+    }
+  };
+
+  const handleIndicatorClick = (index: number) => {
+    // on another day we would write a better algorithm for this
+    // probably based on intersection observer
+    if (featuredRef.current) {
+      const currentLeft = featuredRef.current.scrollLeft;
+      const scrollDiff = index * scrollStep - currentLeft;
+      featuredRef.current.scrollLeft += scrollDiff;
+    }
+  };
+
   return (
     <>
       <div
         className={clx([styles.featured_section], {
           [styles.featured_hide]: searchTerm,
         })}>
-        <p className={clx('font-bold text-14', [styles.featured_header])}>
-          Featured books
-        </p>
+        <div className="container">
+          <p className={clx('font-bold text-14', [styles.featured_header])}>
+            Featured books
+          </p>
 
-        <div className="divider" />
+          <div className="divider" />
+        </div>
 
         <div className={styles.featured_content}>
           {loadingFeatured && !featuredBooks && (
             <p className={styles.featured_loader}>Loading featured books</p>
           )}
+
+          <div
+            onClick={() => handleArrowClick('previous')}
+            className={clx([styles.left_arrow], [styles.feature_scroll_arrow])}>
+            <PreviousIcon />
+          </div>
 
           <div
             ref={node => (featuredRef.current = node)}
@@ -61,31 +102,26 @@ const Home = () => {
             })}
           </div>
 
+          <div
+            onClick={() => handleArrowClick('next')}
+            className={clx(
+              [styles.right_arrow],
+              [styles.feature_scroll_arrow],
+            )}>
+            <NextIcon />
+          </div>
+
           <div className={styles.scroll_indicators}>
             {featuredBooks?.map((f, i) => {
-              // on another day we would write a better algorithm for this
-              // probably based on intersection observer
-              const picWidth = 330; // width of a featured card
-              const midPoint = Math.floor(totalFeatured / 2);
-              const isActive = i === midPoint;
-              const scrollWidth =
-                i === 0 ? picWidth * (totalFeatured - 1) : picWidth * i;
-
               return (
                 <div
                   key={f.id}
                   onClick={() => {
-                    if (featuredRef.current) {
-                      if (i > midPoint) {
-                        featuredRef.current.scrollLeft += scrollWidth;
-                      }
-                      if (i < midPoint) {
-                        featuredRef.current.scrollLeft -= scrollWidth;
-                      }
-                    }
+                    setActiveDot(i);
+                    handleIndicatorClick(i);
                   }}
                   className={clx('cursor-pointer', {
-                    [styles.active_dot]: isActive,
+                    [styles.active_dot]: i === activeDot,
                   })}
                 />
               );
@@ -94,7 +130,7 @@ const Home = () => {
         </div>
       </div>
 
-      <div>
+      <div className="container">
         <div className={styles.all_section_heading}>
           {searchTerm ? (
             <p className="text-14">

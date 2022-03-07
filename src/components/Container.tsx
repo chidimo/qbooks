@@ -14,7 +14,7 @@ export const Container = () => {
   return (
     <>
       <Navbar />
-      <div className={styles.container}>
+      <div className={styles.parent}>
         <Outlet />
       </div>
       <Cart isOpen={cart.cartIsOpen} onRequestClose={cart.closeCart} />

@@ -35,14 +35,14 @@ const BookDetail = () => {
   }
 
   return (
-    <div className="text-14">
+    <div className="text-14 container">
       <div className={styles.back_button}>
         <Link to="/">
           <BackArrowIcon /> <span>Back</span>
         </Link>
       </div>
 
-      <div className={styles.book_container}>
+      <div className={styles.book_wrapper}>
         <div className={styles.book_cover}>
           <img src={book.image_url} alt={book.title} />
 
@@ -96,7 +96,7 @@ const BookDetail = () => {
           </div>
 
           <div className="divider" />
-          
+
           <div className={styles.book_meta}>
             <div className={styles.rating_section}>
               <BookRating book={book} />

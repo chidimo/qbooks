@@ -18,12 +18,12 @@ export const BookFeaturedCard = (props: Props) => {
 
   return (
     <div
-      className={clx([styles.feature_container], {
+      className={clx([styles.feature_wrapper], {
         'ml-0': props.isFirst,
         'mr-0': props.isLast,
       })}
       onClick={() => navigate(`/book/${book.id}`)}>
-      <div className={styles.image_container}>
+      <div className={styles.image_wrapper}>
         <img src={book.image_url} alt={book.title} />
 
         <div className={styles.feature_meta}>

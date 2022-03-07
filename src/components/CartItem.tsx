@@ -15,7 +15,7 @@ export const CartItem = (props: Props) => {
 
   return (
     <div className="font-14">
-      <div className={styles.item_container}>
+      <div className={styles.item_wrapper}>
         <div className={styles.item_details}>
           <div className={styles.cart_item_image}>
             <img src={item.image_url} alt={item.title} />

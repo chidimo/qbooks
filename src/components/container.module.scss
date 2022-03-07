@@ -1,12 +1,6 @@
 @import 'src/styles/variables.scss';
 
-.container {
+.parent {
   padding-top: 100px;
-  padding-left: $container-x-space;
-  padding-right: $container-x-space;
-
-  @media screen and (min-width: 768px) {
-    padding-left: $container-x-space-desktop;
-    padding-right: $container-x-space-desktop;
-  }
+  width: 100vw;
 }

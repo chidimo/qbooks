@@ -2,6 +2,7 @@
 
 .featured_section {
   margin-bottom: 80px;
+  width: 100%;
 }
 
 .featured_header {
@@ -10,16 +11,33 @@
 }
 
 .featured_content {
+  position: relative;
   height: $featured-section-height;
   margin-top: 25px;
+  width: 100%;
+}
 
-  margin-left: -$container-x-space;
-  margin-right: -$container-x-space;
+.feature_scroll_arrow {
+  width: 40px;
+  position: absolute;
+  top: 0;
+  z-index: 1;
+  height: 400px;
+  background: linear-gradient(180deg, rgba(248, 248, 250, 0.8) 0%, #F8F8FA 51.36%, rgba(248, 248, 250, 0.8) 100%);
+  opacity: 0.8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-bottom: 65px;
+  cursor: pointer;
+}
 
-  @media screen and (min-width: 768px) {
-    margin-left: -$container-x-space-desktop;
-    margin-right: -$container-x-space-desktop;
-  }
+.left_arrow {
+  left: 0;
+}
+
+.right_arrow {
+  right: 0;
 }
 
 .featured_hide {
@@ -36,6 +54,7 @@
   overflow-x: auto;
   font-size: 12px;
   scroll-behavior: smooth;
+  // display: none;
 }
 
 .scroll_indicators {
