@@ -1,6 +1,8 @@
+import clx from 'clsx';
+import ReactStars from 'react-stars';
+
 import {BookType} from 'src/api/bookTypes';
 import {LikeIcon} from 'src/svg/LikeIcon';
-import {StarIcon} from 'src/svg/StarIcon';
 import {UsersIcon} from 'src/svg/UsersIcon';
 import styles from './bookrating.module.scss';
 
@@ -14,6 +16,7 @@ export const BookRating = (props: Props) => {
 
   return (
     <div className={styles.purchase_likes_rating}>
+
       <div className={styles.like_and_purchase}>
         <div className={styles.purchases}>
           <p>
@@ -30,9 +33,18 @@ export const BookRating = (props: Props) => {
         </div>
       </div>
 
-      <div className={styles.rating}>
-        <p>Rating: {book.rating}</p>
-        <StarIcon />
+      <div className={clx('', [styles.rating])}>
+        <p>
+          <span className="font-bold">Rating</span>: {book.rating}
+        </p>
+        <ReactStars
+          count={5}
+          size={20}
+          color1="#DDDDDD"
+          color2="#EBA430"
+          value={book.rating}
+          edit={false}
+        />
       </div>
     </div>
   );

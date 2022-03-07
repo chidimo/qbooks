@@ -60,8 +60,11 @@ export const SearchBox = (props: SearchBoxProps): JSX.Element => {
       />
       <div
         onClick={() => {
-          setValue('');
-          setSearchParams({searchTerm: '' as any});
+          if (searchTerm) {
+            setValue('');
+            setSearchParams({searchTerm: '' as any});
+            inputRef.current?.focus();
+          }
         }}
         className={clx('cursor-pointer', [styles.search_box_icons])}>
         {value ? <CloseIcon /> : <SearchIcon />}

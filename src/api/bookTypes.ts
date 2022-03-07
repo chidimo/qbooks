@@ -22,7 +22,11 @@ export declare type BookType = {
   currency: string;
   image_url: string;
   featured: boolean | null;
+  publisher: string;
+  subtitle: string;
   available_copies: number;
+  outOfStock: boolean; // client-only field
+  quantityInStock: number; // client-only field
   full_description: string;
   number_of_purchases: number;
   published_at: string;

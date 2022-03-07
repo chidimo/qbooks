@@ -19,7 +19,7 @@
   padding-right: 40px;
 
   &:focus {
-    outline: none;
+    outline: 1px solid gray;
   }
 
   &::placeholder {

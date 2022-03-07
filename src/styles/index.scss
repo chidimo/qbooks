@@ -1,5 +1,6 @@
 * {
   box-sizing: border-box;
+  font-family: Ubuntu, sans-serif;
 }
 
 a {
@@ -8,7 +9,6 @@ a {
 
 body {
   margin: 0;
-  font-family: Ubuntu, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -42,6 +42,14 @@ p {
   margin-left: 0.5rem;
 }
 
+.ml-0 {
+  margin-left: 0 !important;
+}
+
+.mr-0 {
+  margin-right: 0 !important;
+}
+
 .font-bold {
   font-weight: bold;
 }
@@ -56,4 +64,41 @@ p {
 
 .flex-grow {
   flex-grow: 1;
+}
+
+.flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.text-left {
+  text-align: left;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.grid {
+  display: grid;
+}
+
+.divider {
+  height: 1px;
+  background: #EEEEEE;
+  transform: matrix(-1, 0, 0, 1, 0, 0);
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.hide_scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.hide_scrollbar {
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
 }

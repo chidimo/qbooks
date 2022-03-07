@@ -1,15 +1,17 @@
 @import 'src/styles/variables.scss';
 
 .featured_section {
-  margin-bottom: 60px;
+  margin-bottom: 80px;
 }
 
 .featured_header {
   padding: 20px 0;
+  margin: 0;
 }
 
 .featured_content {
   height: $featured-section-height;
+  margin-top: 25px;
 }
 
 .featured_hide {
@@ -27,10 +29,39 @@
   font-size: 12px;
 }
 
+.scroll_indicators {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 30px;
+
+  div {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #DDDDDD;
+    margin: 0 5px;
+  }
+}
+
+div.active_dot {
+  background: #64C000;
+  border: 1px solid #64C000;
+
+}
+
 .featured_loader {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.all_section_heading {
+  margin: 20px 0;
+
+  p {
+    margin: 0;
+  }
 }
 
 .book_grid {

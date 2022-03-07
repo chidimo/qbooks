@@ -1,8 +1,12 @@
 import clx from 'clsx';
+import toast from 'react-hot-toast';
 import {useNavigate} from 'react-router-dom';
 
 import {BookType} from 'src/api/bookTypes';
+import {useCart} from 'src/context/CartContext';
 import {CartIcon} from 'src/svg/CartIcon';
+import {formatAsCurrency} from 'src/utils/formatAsCurrency';
+import {formatDateAsYear} from 'src/utils/formatDate';
 import styles from './bookgridview.module.scss';
 import {BookRating} from './BookRating';
 
@@ -12,8 +16,11 @@ type Props = {
 
 export const BookGridCard = (props: Props) => {
   const {book} = props;
+  const cart = useCart();
   const navigate = useNavigate();
-  const isAvailable = book.available_copies > 0;
+
+  const genres = book.genres.map(g => g.name).join(', ');
+  const authors = book.authors.map(a => a.name).join(', ');
 
   return (
     <div
@@ -27,23 +34,22 @@ export const BookGridCard = (props: Props) => {
         <h3 className={styles.book_title}>{book.title}</h3>
 
         <span>
-          {book.authors.map(a => a.name).join(', ')} -{' '}
-          {book.published_at?.substring(0, 4)}
+          {authors} - {formatDateAsYear(book.published_at)}
         </span>
 
-        <span>{book.genres.map(g => g.name).join(', ')}</span>
+        <span>{genres}</span>
 
         <BookRating book={book} />
 
         <div className={styles.price_container}>
-          <span>${book.price}</span>
+          <span>{formatAsCurrency(book.price)}</span>
           <span>
-            {book.available_copies > 0 ? (
-              <span className="text-success ml-2">
-                {book.available_copies} Copies Available
-              </span>
-            ) : (
+            {book.outOfStock ? (
               <span className="text-danger ml-2">Out of stock</span>
+            ) : (
+              <span className="text-success ml-2">
+                {book.quantityInStock} Copies Available
+              </span>
             )}
           </span>
         </div>
@@ -51,14 +57,21 @@ export const BookGridCard = (props: Props) => {
         <div
           onClick={e => {
             e.stopPropagation();
-
-            if (!isAvailable) {
+            if (book.outOfStock) {
+              toast.error(`${book.title} is out of stock`);
               return;
             }
-            alert('Add to cart');
+            cart.addItemToCart({
+              id: book.id,
+              title: book.title,
+              image_url: book.image_url,
+              quantity: 1,
+              price: book.price,
+              author: authors,
+            });
           }}
           className={clx('cursor-pointer', [styles.add_to_cart], {
-            [styles.out_of_stock]: !isAvailable,
+            [styles.out_of_stock]: book.outOfStock,
           })}>
           <CartIcon /> <span>Add to cart</span>
         </div>

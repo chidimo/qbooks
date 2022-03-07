@@ -22,7 +22,11 @@ export const BOOK = `
   currency
   image_url
   featured
+  publisher
+  subtitle
   available_copies
+  outOfStock @client
+  quantityInStock @client
   full_description
   number_of_purchases
   published_at
@@ -49,8 +53,7 @@ export const booksQueryString = {
   SINGLE_BOOK: `
   query singleBook($id:ID!, $publicationState: PublicationState) {
     book(id:$id, publicationState:$publicationState){
-      id
-      title
+      ${BOOK}
     }
   }
   `,

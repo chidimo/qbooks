@@ -1,18 +1,50 @@
 import {ApolloProvider, ApolloClient} from '@apollo/client';
+import {InMemoryCache} from '@apollo/client/cache';
 import Modal from 'react-modal';
+import {Toaster} from 'react-hot-toast';
 
 import {linkChain} from './appLinks';
 import {ApiProvider} from './api/ApiContext';
-import {InMemoryCache} from '@apollo/client/cache';
-import {Toaster} from 'react-hot-toast';
 import {AppRoutes} from './Routes';
+import {CartProvider} from './context/CartContext';
+import {CartItemType} from './context/cartTypes';
 
 Modal.setAppElement('#root');
 
 export const cache = new InMemoryCache({
   typePolicies: {
-    Query: {
-      fields: {},
+    Books: {
+      fields: {
+        outOfStock: {
+          read(_, {readField}) {
+            const saleable = readField('quantityInStock');
+            if (!saleable) {
+              return true;
+            }
+            return saleable < 1;
+          },
+        },
+        quantityInStock: {
+          read(_, data) {
+            const {readField} = data;
+            const bookId = readField('id');
+            const copies_from_server =
+              Number(readField('available_copies')) || 0;
+
+            const savedCart = localStorage.getItem('flimsy_cart');
+            const cart = savedCart ? JSON.parse(savedCart) : [];
+
+            const itemInCart = cart.find(
+              (it: CartItemType) => it.id === bookId,
+            );
+            const remainingQuantity = itemInCart
+              ? copies_from_server - itemInCart.quantity
+              : copies_from_server;
+
+            return remainingQuantity;
+          },
+        },
+      },
     },
   },
 });
@@ -31,7 +63,9 @@ function App() {
     <ApolloProvider client={client}>
       <Toaster />
       <ApiProvider>
-        <AppRoutes />
+        <CartProvider>
+          <AppRoutes />
+        </CartProvider>
       </ApiProvider>
     </ApolloProvider>
   );
