@@ -109,7 +109,7 @@ div.active_dot {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  @media screen and (min-width:960px) {
+  @media screen and (min-width:992px) {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
