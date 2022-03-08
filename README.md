@@ -1,5 +1,7 @@
 # Flimsy books
 
+[![Netlify Status](https://api.netlify.com/api/v1/badges/31284c61-f835-430c-b519-040a6810e97e/deploy-status)](https://app.netlify.com/sites/flimsy-books/deploys)
+
 A fictitious books company
 
 Github URL: <https://github.com/chidimo/qbooks>
